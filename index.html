@@ -65,7 +65,7 @@
           <div class="mt-5 ps-3 d-flex flex-column justify-content-center">
             <div class="my-2 d-flex align-items-center" v-for="(icon, index) in icons"
               v-on:click="selectedOption=index">
-              <img :src="'../images/'+icon" alt="" style="height: 10vh;"
+              <img :src="'images/'+icon" alt="" style="height: 10vh;"
                 :style="{ filter: 'grayscale(' + (selectedOption == index ? '0' : '100') + '%)'}" />
               <div class="ms-3 fs3">{{options[index]}}</div>
               <!-- <div class="text-center h3 mb-0" v-if="selectedOption == index">^</div> -->
@@ -92,7 +92,7 @@
         </div>
       </div>
       <div class="h-100 d-flex flex-column align-items-center" v-if="currentQuestion == -1">
-        <img src="../images/icon.png" style="width: 12.5rem;" alt="">
+        <img src="images/icon.png" style="width: 12.5rem;" alt="">
         <div class="fs2 mt-3 text-center">{{form.title}}</div>
         <div class="fs3 mt-4">ผลการประเมิน</div>
         <div class="" style="font-size: 10rem;">{{score}}</div>
