@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="../vender/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Kodchasan', sans-serif;
+    }
+
+    .fs1 {
+      font-size: 48px;
+    }
+
+    .fs2 {
+      font-size: 36px;
+    }
+
+    .fs3 {
+      font-size: 28px;
+    }
+
+    .fs4 {
+      font-size: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- place navbar here -->
+  </header>
+  <main id="app">
+    <div class="container bg-light" style="height: 100vh;">
+      <div class="h-100 d-flex flex-column align-items-center" v-if="currentQuestion == 0">
+        <div class="mt-auto text-center">
+          <img src="../images/icon.png" style="width: 12.5rem;" alt="">
+          <div class="fs2 mt-3">{{form.title}}</div>
+          <div class="fs3 mt-4">{{form.description}}</div>
+        </div>
+        <div class="mt-auto pb-2">
+          <button class="btn btn-success fs3" v-on:click="currentQuestion+=1">เริ่มทำแบบประเมิน</button>
+        </div>
+      </div>
+      <div class="h-100 d-flex flex-column align-items-center" v-if="currentQuestion > 0">
+        <div class="mt-3 w-100">
+          <div class="card border-success border-1">
+            <div class="card-body">
+              <div class="text-start fs1">{{ currentQuestion }}. {{form.questions[currentQuestion - 1].title}}</div>
+            </div>
+          </div>
+          <div class="mt-5 ps-3 d-flex flex-column justify-content-center">
+            <div class="my-2 d-flex align-items-center" v-for="(icon, index) in icons"
+              v-on:click="selectedOption=index">
+              <img :src="'../images/'+icon" alt="" style="height: 10vh;"
+                :style="{ filter: 'grayscale(' + (selectedOption == index ? '0' : '100') + '%)'}" />
+              <div class="ms-3 fs3">{{options[index]}}</div>
+              <!-- <div class="text-center h3 mb-0" v-if="selectedOption == index">^</div> -->
+            </div>
+          </div>
+          <!-- <div class="mt-3 bg-success text-white rounded-pill text-center">
+            {{options[selectedOption]}}
+          </div> -->
+        </div>
+        <div class="mt-auto w-100 pb-2">
+          <!-- <div class="text-center">{{score}}</div> -->
+          <div class="row g-1">
+            <div class="col-5 d-grid">
+              <button class="btn btn-outline-secondary fs3" v-on:click="back()"
+                :disabled="currentQuestion <= 1">ย้อนกลับ</button>
+            </div>
+            <div class="col d-grid">
+              <button class="btn btn-success fs3" v-on:click="next()" v-if="currentQuestion < form.questions.length"
+                :disabled="selectedOption === undefined">ถัดไป</button>
+              <button class="btn btn-success fs3" v-on:click="submit()"
+                v-if="currentQuestion >= form.questions.length">ยืนยัน</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="h-100 d-flex flex-column align-items-center" v-if="currentQuestion == -1">
+        <img src="../images/icon.png" style="width: 12.5rem;" alt="">
+        <div class="fs2 mt-3 text-center">{{form.title}}</div>
+        <div class="fs3 mt-4">ผลการประเมิน</div>
+        <div class="" style="font-size: 10rem;">{{score}}</div>
+        <div class="fs3 mt-4">คะแนน</div>
+        <div class="fs4 mt-4 text-center">
+          {{calculateResult(score)}}
+        </div>
+        <div class="mt-auto pb-2">
+          <button class="btn btn-primary fs3" v-if="score < 10">เล่นวีดีโอผ่อนคลาย</button>
+          <button class="btn btn-primary fs3" v-if="score >= 10">นัดหมายแพทย์</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <!-- place footer here -->
+  </footer>
+  <!-- Bootstrap JavaScript Libraries -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
+  <script src="../vender/js/popper.min.js"></script>
+  <script src="../vender/js/bootstrap.min.js"></script>
+  <script src="../vender/js/vue@2.js"></script>
+  <script>
+    // const options = ['ไม่เลย (0 คะแนน)', 'บางวัน (1 คะแนน)', 'เกินกว่า 7 วันในช่วง 2 อาทิตย์ที่ผ่านมา (2 คะแนน)', 'เกือบทุกวัน (3 คะแนน)'];
+    const options = ['ไม่เลย', 'บางวัน', 'เกินกว่า 7 วันในช่วง 2 อาทิตย์ที่ผ่านมา', 'เกือบทุกวัน'];
+    const icons = ['smile_0.png', 'neutral_1.png', 'sad_2.png', 'verysad_3.png'];
+
+    function question(title) {
+      this.title = title;
+      this.options = [...options];
+    }
+
+    function calculateResult(score) {
+      if (score < 10)
+        return 'ท่านมีความวิตกกังวลในระดับเฉลี่ยหรือสูงกว่าเกณฑ์เฉลี่ย เพียงเล็กน้อย';
+      // else if (score < 15)
+      //   return 'ท่านมีความวิตกกังวลในระดับปานกลาง และควรท้า แบบประเมินซ้้าในอีก 1-2 สัปดาห์';
+      else
+        return 'ท่านมีความวิตกกังวลในระดับสูง ควรได้รับการประเมิน จากผู้เชี่ยวชาญ';
+    }
+
+    let app = new Vue({
+      el: '#app',
+      data: {
+        currentQuestion: 0,
+        selectedOption: undefined,
+        answers: [],
+        form: {
+          title: 'แบบประเมินภาวะวิตกกังวล (GAD-7)',
+          subtitle: '',
+          description: 'ในช่วงสองสัปดาห์ที่ผ่านมา คุณ ?',
+          questions: [
+            new question('รู้สึกตึงเครียด วิตกกังวล หรือ กระวนกระวาย'),
+            new question('ไม่สามารถหยุดหรือควบคุมความกังวลได้'),
+            new question('กังวลมากเกินไปในเรื่องต่างๆ'),
+            new question('ทำตัวให้ผ่อนคลายได้ยาก'),
+            new question('รู้สึกกระสับกระส่ายจนไม่สามารถนั่งนิ่งๆ ได้'),
+            new question('กลายเป็นคนขี้รำคาญ หรือ หงุดหงิดง่าย'),
+            new question('รู้สึกกลัวเหมือนว่าจะมีอะไรร้ายๆ เกิดขึ้น'),
+          ]
+        }
+      },
+      computed: {
+        score() {
+          let vue = this;
+
+          return vue.answers.reduce((x, y) => +x + parseInt(y.answer), []);
+        }
+      },
+      methods: {
+        back() {
+          let vue = this;
+          vue.currentQuestion -= 1;
+          let answer = vue.answers.find(x => x.question == vue.currentQuestion);
+          vue.selectedOption = answer.answer;
+
+        },
+        next() {
+          let vue = this;
+          let answer = vue.answers.find(x => x.question == vue.currentQuestion);
+          if (!answer)
+            vue.answers.push({ question: vue.currentQuestion, answer: vue.selectedOption });
+          else
+            answer.answer = vue.selectedOption;
+          vue.selectedOption = undefined;
+          vue.currentQuestion += 1;
+        },
+        submit() {
+          let vue = this;
+          vue.next();
+          vue.currentQuestion = -1;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
